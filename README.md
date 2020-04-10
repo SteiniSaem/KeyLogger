@@ -14,4 +14,4 @@ Project is done as a final project at the university of Iceland for the class Ö
 -Python 2.7<br>
 -Pip for python<br>
 -python-xlib(pip)<br>
--pyxhook<br>
+-pyxhook(pip)<br>
