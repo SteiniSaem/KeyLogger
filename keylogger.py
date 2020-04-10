@@ -18,7 +18,7 @@ def hide_process(self):
 # or use the default ~/Desktop/file.log 
 log_file = os.environ.get( 
     'pylogger_file', 
-    os.path.expanduser('~/Desktop/file.log') 
+    os.path.expanduser('./file.log') 
 ) 
 # Allow setting the cancel key from environment args, Default: ` 
 cancel_key = ord( 
