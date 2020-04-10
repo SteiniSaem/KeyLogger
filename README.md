@@ -2,8 +2,8 @@
 <strong>This program is created for educational uses only</strong>
 
 <h3>Authors</h3>
-Matthías Dan Flemmingsson
-Þorsteinn Sæmundsson
+Matthías Dan Flemmingsson<br>
+Þorsteinn Sæmundsson<br>
 Úlfur Þór Þráinsson
 
 <h3>Description</h3>
