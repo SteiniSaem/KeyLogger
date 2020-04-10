@@ -1,0 +1,4 @@
+pkg-resources==0.0.0
+python-xlib==0.27
+pyxhook==1.0.0
+six==1.14.0

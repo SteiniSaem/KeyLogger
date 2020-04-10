@@ -15,3 +15,4 @@ Project is done as a final project at the university of Iceland for the class Ö
 -Pip for python<br>
 -python-xlib(pip)<br>
 -pyxhook(pip)<br>
+-(option)Virtualenv for ease of install of the above
