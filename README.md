@@ -1,4 +1,4 @@
-<h1>KEYLOGGER</h1>
+<h1>KEYLOGGER - A rootkit</h1>
 <strong>This program is created for educational uses only</strong>
 
 <h3>Authors</h3>
